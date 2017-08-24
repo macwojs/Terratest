@@ -1,3 +1,7 @@
+"""
+Glowna os programu z interfejsem
+"""
+
 import sys
 import os
 import terratest
