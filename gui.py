@@ -2,7 +2,7 @@ import sys
 import os
 import terratest
 from pygal import Line
-from gmplot import (GoogleMapPlotter)
+import googlemap
 from PyQt5.QtWidgets import (QMainWindow, QLineEdit, QApplication, QLabel, QGridLayout,
                              QTextEdit, QStackedWidget, QWidget, QPushButton, QFileDialog,
                              QHBoxLayout, QDesktopWidget, QVBoxLayout)
@@ -222,42 +222,10 @@ class MapScreen(QWidget):
         self.backbttn.clicked.connect(self.parent().maingui)
 
     def drawmap(self, lati, long):
-        gmap = GoogleMapPlotterKey(lati, long, 13)
+        gmap = googlemap.GoogleMapPlotterKey(lati, long, 13)
         gmap.marker(lati, long, title="A street corner in Seattle")
         gmap.draw('maps/mapa.html')
 
-
-class GoogleMapPlotterKey(GoogleMapPlotter):
-    def draw(self, htmlfile):
-        f = open(htmlfile, 'w')
-        f.write('<html>\n')
-        f.write('<head>\n')
-        f.write(
-            '<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />\n')
-        f.write(
-            '<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>\n')
-        f.write('<title>Google Maps - pygmaps </title>\n')
-        # f.write('<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=visualization"></script>\n')
-        f.write(
-            '<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASb3-xTdaXx05eFs6qbVV-hHMRENPEnuA"type="text/javascript"></script>')
-        f.write('<script type="text/javascript">\n')
-        f.write('\tfunction initialize() {\n')
-        self.write_map(f)
-        self.write_grids(f)
-        self.write_points(f)
-        self.write_paths(f)
-        self.write_shapes(f)
-        self.write_heatmap(f)
-        f.write('\t}\n')
-        f.write('</script>\n')
-        f.write('</head>\n')
-        f.write(
-            '<body style="margin:0px; padding:0px;" onload="initialize()">\n')
-        f.write(
-            '\t<div id="map_canvas" style="width: 100%; height: 100%;"></div>\n')
-        f.write('</body>\n')
-        f.write('</html>\n')
-        f.close()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
